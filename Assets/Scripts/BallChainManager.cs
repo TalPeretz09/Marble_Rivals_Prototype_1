@@ -120,5 +120,60 @@ public class BallChainManager : MonoBehaviour
         shotBall.isShotBall = false;
 
         balls.Insert(index + 1, shotBall);
+
+        CheckForMatches(index + 1);
+    }
+
+    void CheckForMatches(int index)
+    {
+        BallColor color = balls[index].ballColor;
+
+        List<Ball> matchedBalls = new List<Ball>();
+        matchedBalls.Add(balls[index]);
+
+        // Check left
+        for (int i = index - 1; i >= 0; i--)
+        {
+            if (balls[i].ballColor == color)
+                matchedBalls.Add(balls[i]);
+            else
+                break;
+        }
+
+        // Check right
+        for (int i = index + 1; i < balls.Count; i++)
+        {
+            if (balls[i].ballColor == color)
+                matchedBalls.Add(balls[i]);
+            else
+                break;
+        }
+
+        if (matchedBalls.Count >= 3)
+        {
+            DestroyMatch(matchedBalls);
+        }
+    }
+
+    void DestroyMatch(List<Ball> matchedBalls)
+    {
+        foreach (Ball ball in matchedBalls)
+        {
+            balls.Remove(ball);
+            Destroy(ball.gameObject);
+        }
+
+        StartCoroutine(CollapseChain());
+    }
+
+    System.Collections.IEnumerator CollapseChain()
+    {
+        yield return new WaitForSeconds(0.15f);
+
+        // Check if new matches formed after collapse
+        for (int i = 0; i < balls.Count; i++)
+        {
+            CheckForMatches(i);
+        }
     }
 }
