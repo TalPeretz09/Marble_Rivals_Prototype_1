@@ -4,6 +4,8 @@ public class Ball : MonoBehaviour
 {
     public BallColor ballColor;
 
+    public bool isShotBall = false;
+
     public void SetColor(BallColor color)
     {
         ballColor = color;
@@ -24,6 +26,18 @@ public class Ball : MonoBehaviour
             case BallColor.Blue:
                 sr.color = Color.blue;
                 break;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!isShotBall) return;
+
+        Ball hitBall = collision.gameObject.GetComponent<Ball>();
+
+        if (hitBall != null)
+        {
+            BallChainManager.instance.InsertBall(this, hitBall);
         }
     }
 }

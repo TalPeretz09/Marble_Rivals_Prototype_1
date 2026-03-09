@@ -4,6 +4,8 @@ using UnityEngine.Splines;
 
 public class BallChainManager : MonoBehaviour
 {
+    public static BallChainManager instance;
+
     [SerializeField] private SplineContainer spline;
     [SerializeField] private GameObject ballPrefab;
 
@@ -15,11 +17,17 @@ public class BallChainManager : MonoBehaviour
     [SerializeField] private float introDuration = 1f;
     [SerializeField] private float spacing = 0.015f;
 
-    [SerializeField] private List<Transform> balls = new List<Transform>();
+    [SerializeField] private List<Ball> balls = new List<Ball>();
+
     private float frontDistance = 0f;
 
     private float currentSpeed;
     private float introTimer;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -45,7 +53,6 @@ public class BallChainManager : MonoBehaviour
         {
             BallColor randomColor;
 
-            // Ensure new group color is different from previous
             do
             {
                 randomColor = (BallColor)Random.Range(0, 4);
@@ -63,10 +70,12 @@ public class BallChainManager : MonoBehaviour
                     break;
 
                 GameObject ballObj = Instantiate(ballPrefab);
+
                 Ball ballScript = ballObj.GetComponent<Ball>();
                 ballScript.SetColor(randomColor);
 
-                balls.Add(ballObj.transform);
+                balls.Add(ballScript);
+
                 ballsSpawned++;
             }
         }
@@ -81,7 +90,8 @@ public class BallChainManager : MonoBehaviour
             float distance = frontDistance - (i * spacing);
 
             Vector3 position = spline.EvaluatePosition(distance);
-            balls[i].position = position;
+
+            balls[i].transform.position = position;
         }
     }
 
@@ -96,5 +106,19 @@ public class BallChainManager : MonoBehaviour
                 currentSpeed = normalSpeed;
             }
         }
+    }
+
+    public void InsertBall(Ball shotBall, Ball hitBall)
+    {
+        int index = balls.IndexOf(hitBall);
+
+        if (index == -1) return;
+
+        Rigidbody2D rb = shotBall.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = Vector2.zero;
+
+        shotBall.isShotBall = false;
+
+        balls.Insert(index + 1, shotBall);
     }
 }

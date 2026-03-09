@@ -94,18 +94,18 @@ public class PlayerController : MonoBehaviour
             yield break;
         }
 
-        // STEP 1: Detach firing ball
         Rigidbody2D rb = firingBall.GetComponent<Rigidbody2D>();
+
         firingBall.transform.SetParent(null);
 
         yield return new WaitForSeconds(0.02f);
 
-        // STEP 2: Shoot the ball
+        firingBall.isShotBall = true;
+
         rb.linearVelocity = firingPoint.right * shootForce;
 
         yield return new WaitForSeconds(0.05f);
 
-        // STEP 3: Move stored ball to firing position
         firingBall = storedBall;
 
         firingBall.transform.SetParent(firingPoint);
@@ -113,10 +113,8 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.05f);
 
-        // STEP 4: Spawn new stored ball
         storedBall = SpawnBallAtPoint(storedPoint);
 
-        // STEP 5: Cooldown before next shot
         yield return new WaitForSeconds(shootCooldown);
 
         canShoot = true;
