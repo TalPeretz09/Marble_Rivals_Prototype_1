@@ -16,6 +16,7 @@ public class BallChainManager : MonoBehaviour
     [SerializeField] private float introSpeed = 0.08f;
     [SerializeField] private float introDuration = 1f;
     [SerializeField] private float spacing = 0.015f;
+    [SerializeField] private float loseDistance = 1f;
 
     [SerializeField] private List<Ball> balls = new List<Ball>();
 
@@ -41,6 +42,7 @@ public class BallChainManager : MonoBehaviour
     {
         HandleIntroSpeed();
         MoveChain();
+        CheckLoseCondition();
     }
 
     void SpawnBalls()
@@ -174,6 +176,18 @@ public class BallChainManager : MonoBehaviour
         for (int i = 0; i < balls.Count; i++)
         {
             CheckForMatches(i);
+        }
+    }
+
+    void CheckLoseCondition()
+    {
+        if (frontDistance >= loseDistance)
+        {
+            Debug.Log("Game Over!");
+
+            currentSpeed = 0f;
+
+            enabled = false;
         }
     }
 }
