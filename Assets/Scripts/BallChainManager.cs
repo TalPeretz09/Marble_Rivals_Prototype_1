@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -8,6 +9,8 @@ public class BallChainManager : MonoBehaviour
 
     [SerializeField] private SplineContainer spline;
     [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private Canvas winLossScreen;
+    [SerializeField] private TMP_Text winLossText;
 
     [SerializeField] private int ballCount;
 
@@ -35,6 +38,8 @@ public class BallChainManager : MonoBehaviour
         ballCount = DifficultyManager.Instance.ballCount;
         normalSpeed = DifficultyManager.Instance.ballSpeed;
 
+        winLossScreen.enabled = false;
+
         SpawnBalls();
 
         currentSpeed = introSpeed;
@@ -46,6 +51,7 @@ public class BallChainManager : MonoBehaviour
         HandleIntroSpeed();
         MoveChain();
         CheckLoseCondition();
+        CheckWinCondition();
     }
 
     void SpawnBalls()
@@ -190,7 +196,25 @@ public class BallChainManager : MonoBehaviour
 
             currentSpeed = 0f;
 
-            enabled = false;
+            winLossScreen.enabled = true;
+            winLossText.text = "You Lose!";
+
+            Time.timeScale = 0f;
+        }
+    }
+
+    void CheckWinCondition()
+    {
+        if(balls.Count == 0)
+        {
+            Debug.Log("You Win!");
+
+            currentSpeed = 0f;
+
+            winLossScreen.enabled = true;
+            winLossText.text = "You Win!";
+
+            Time.timeScale = 0f;
         }
     }
 }
