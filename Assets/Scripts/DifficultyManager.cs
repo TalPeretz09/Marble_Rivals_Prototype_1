@@ -29,18 +29,18 @@ public class DifficultyManager : MonoBehaviour
         switch (difficulty)
         {
             case GameDifficulty.Easy:
-                ballCount = 25;
-                ballSpeed = 2f;
+                ballCount = 60;
+                ballSpeed = 0.02f;
                 break;
 
             case GameDifficulty.Medium:
-                ballCount = 35;
-                ballSpeed = 3f;
+                ballCount = 80;
+                ballSpeed = 0.05f;
                 break;
 
             case GameDifficulty.Hard:
-                ballCount = 50;
-                ballSpeed = 4.5f;
+                ballCount = 100;
+                ballSpeed = 0.09f;
                 break;
         }
     }

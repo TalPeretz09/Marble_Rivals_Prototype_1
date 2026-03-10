@@ -9,13 +9,13 @@ public class BallChainManager : MonoBehaviour
     [SerializeField] private SplineContainer spline;
     [SerializeField] private GameObject ballPrefab;
 
-    [SerializeField] private int ballCount = 10;
+    [SerializeField] private int ballCount;
 
     [Header("Movement Settings")]
-    [SerializeField] private float normalSpeed = 0.02f;
-    [SerializeField] private float introSpeed = 0.08f;
+    [SerializeField] private float normalSpeed;
+    [SerializeField] private float introSpeed = 0.2f;
     [SerializeField] private float introDuration = 1f;
-    [SerializeField] private float spacing = 0.015f;
+    [SerializeField] private float spacing = 0.01f;
     [SerializeField] private float loseDistance = 1f;
 
     [SerializeField] private List<Ball> balls = new List<Ball>();
@@ -32,6 +32,9 @@ public class BallChainManager : MonoBehaviour
 
     void Start()
     {
+        ballCount = DifficultyManager.Instance.ballCount;
+        normalSpeed = DifficultyManager.Instance.ballSpeed;
+
         SpawnBalls();
 
         currentSpeed = introSpeed;
