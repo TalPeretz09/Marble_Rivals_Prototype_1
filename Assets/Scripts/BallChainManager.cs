@@ -7,6 +7,7 @@ public class BallChainManager : MonoBehaviour
 {
     public static BallChainManager instance;
 
+    [Header("Objects")]
     [SerializeField] private SplineContainer spline;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Canvas winLossScreen;
