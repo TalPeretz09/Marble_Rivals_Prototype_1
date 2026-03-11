@@ -44,6 +44,8 @@ public class BallChainManager : MonoBehaviour
 
         currentSpeed = introSpeed;
         introTimer = introDuration;
+
+        Time.timeScale = 1f;
     }
 
     void Update()
