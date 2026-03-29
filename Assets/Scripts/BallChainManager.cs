@@ -28,6 +28,8 @@ public class BallChainManager : MonoBehaviour
 
     [SerializeField] private List<Ball> balls = new List<Ball>();
 
+    [SerializeField] private GameObject explosionPrefab;
+
     private float frontDistance = 0f;
     private float collapseTargetDistance;
 
@@ -204,6 +206,8 @@ public class BallChainManager : MonoBehaviour
 
         foreach (Ball ball in matchedBalls)
         {
+            Instantiate(explosionPrefab, ball.transform.position, Quaternion.identity);
+
             balls.Remove(ball);
             Destroy(ball.gameObject);
         }

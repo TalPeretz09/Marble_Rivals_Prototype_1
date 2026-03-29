@@ -2097,6 +2097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   layoutCanvas: {fileID: 0}
   difficultyCanvas: {fileID: 0}
+  instructionsCanvas: {fileID: 0}
 --- !u!114 &1662789799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2251,7 +2252,9 @@ MonoBehaviour:
   introDuration: 1.25
   spacing: 0.01
   loseDistance: 1
+  collapseSpeed: 3
   balls: []
+  explosionPrefab: {fileID: 1356750754634265488, guid: fd38bf388c9f8cb4cbc40a67ce23f28b, type: 3}
 --- !u!4 &1736959725
 Transform:
   m_ObjectHideFlags: 0
