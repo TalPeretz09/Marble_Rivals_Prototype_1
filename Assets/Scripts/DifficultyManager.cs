@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DifficultyManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class DifficultyManager : MonoBehaviour
 
     public GameDifficulty currentDifficulty;
 
+    public string selectedSceneName;
     public int ballCount;
     public float ballSpeed;
 
@@ -20,6 +22,11 @@ public class DifficultyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetLayout(string sceneName)
+    {
+        selectedSceneName = sceneName;
     }
 
     public void SetDifficulty(GameDifficulty difficulty)
@@ -43,5 +50,7 @@ public class DifficultyManager : MonoBehaviour
                 ballSpeed = 0.025f;
                 break;
         }
+
+        SceneManager.LoadScene(selectedSceneName);
     }
 }
