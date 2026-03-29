@@ -5,6 +5,17 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject layoutCanvas;
     public GameObject difficultyCanvas;
+    public GameObject instructionsCanvas;
+
+    public void HowToPlay()
+    {
+        instructionsCanvas.SetActive(true);
+    }
+
+    public void CloseHowToPlay()
+    {
+        instructionsCanvas.SetActive(false);
+    }
 
     public void SelectLayout1()
     {
