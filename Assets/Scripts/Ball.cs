@@ -6,27 +6,22 @@ public class Ball : MonoBehaviour
 
     public bool isShotBall = false;
 
+    private SpriteRenderer sr;
+
+    [Header("Ball Sprites (match order of BallColor enum)")]
+    public Sprite[] ballSprites;
+
+    void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
     public void SetColor(BallColor color)
     {
         ballColor = color;
 
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-
-        switch (color)
-        {
-            case BallColor.Red:
-                sr.color = Color.red;
-                break;
-            case BallColor.Green:
-                sr.color = Color.green;
-                break;
-            case BallColor.Yellow:
-                sr.color = Color.yellow;
-                break;
-            case BallColor.Blue:
-                sr.color = Color.blue;
-                break;
-        }
+        // Assign sprite based on enum index
+        sr.sprite = ballSprites[(int)color];
     }
 
     void OnCollisionEnter2D(Collision2D collision)

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7450099626566521074}
   - component: {fileID: 1968526414998408355}
-  - component: {fileID: 560411820854585502}
   - component: {fileID: 339432481203281166}
   - component: {fileID: 3852510278953998199}
+  - component: {fileID: 560411820854585502}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,20 +94,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &560411820854585502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335868007921589612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5838db079f1244f85d9a3b18c899bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  ballColor: 0
-  isShotBall: 0
 --- !u!58 &339432481203281166
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,3 +157,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &560411820854585502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335868007921589612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5838db079f1244f85d9a3b18c899bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  ballColor: 0
+  isShotBall: 0
+  ballSprites:
+  - {fileID: -22789415032335762, guid: 8486df6360390014aa52a6bf516c80dd, type: 3}
+  - {fileID: -4973088527674372411, guid: 71dc4b4f6b886d240a4937ed045d6a82, type: 3}
+  - {fileID: 5025437265661322431, guid: 530fcf33a68dea54bbbf24266b5ba806, type: 3}
+  - {fileID: 2051009945517871295, guid: 1785e013f72500443ac9506dec460926, type: 3}
