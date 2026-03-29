@@ -984,7 +984,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1662789798}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: Return
+        m_MethodName: BackToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2095,6 +2095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6ab6ec44cf8fc429640603699d2b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
+  layoutCanvas: {fileID: 0}
+  difficultyCanvas: {fileID: 0}
 --- !u!114 &1662789799
 MonoBehaviour:
   m_ObjectHideFlags: 0
