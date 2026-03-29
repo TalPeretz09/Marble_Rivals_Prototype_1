@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,17 +18,23 @@ public class BallChainManager : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float normalSpeed;
-    [SerializeField] private float introSpeed = 0.2f;
-    [SerializeField] private float introDuration = 1f;
+    [SerializeField] private float introSpeed = 0.5f;
+    [SerializeField] private float introDuration = 1.5f;
     [SerializeField] private float spacing = 0.01f;
     [SerializeField] private float loseDistance = 1f;
+
+    [Header("Collapse Settings")]
+    [SerializeField] private float collapseSpeed = 3f;
 
     [SerializeField] private List<Ball> balls = new List<Ball>();
 
     private float frontDistance = 0f;
+    private float collapseTargetDistance;
 
     private float currentSpeed;
     private float introTimer;
+
+    private bool isCollapsing = false;
 
     void Awake()
     {
@@ -52,7 +59,12 @@ public class BallChainManager : MonoBehaviour
     void Update()
     {
         HandleIntroSpeed();
-        MoveChain();
+
+        if (!isCollapsing)
+            MoveChain();
+        else
+            CollapseMovement();
+
         CheckLoseCondition();
         CheckWinCondition();
     }
@@ -98,13 +110,28 @@ public class BallChainManager : MonoBehaviour
     void MoveChain()
     {
         frontDistance += currentSpeed * Time.deltaTime;
+        UpdateBallPositions();
+    }
 
+    void CollapseMovement()
+    {
+        frontDistance = Mathf.Lerp(frontDistance, collapseTargetDistance, Time.deltaTime * collapseSpeed);
+
+        UpdateBallPositions();
+
+        if (Mathf.Abs(frontDistance - collapseTargetDistance) < 0.001f)
+        {
+            frontDistance = collapseTargetDistance;
+            isCollapsing = false;
+        }
+    }
+
+    void UpdateBallPositions()
+    {
         for (int i = 0; i < balls.Count; i++)
         {
             float distance = frontDistance - (i * spacing);
-
             Vector3 position = spline.EvaluatePosition(distance);
-
             balls[i].transform.position = position;
         }
     }
@@ -125,7 +152,6 @@ public class BallChainManager : MonoBehaviour
     public void InsertBall(Ball shotBall, Ball hitBall)
     {
         int index = balls.IndexOf(hitBall);
-
         if (index == -1) return;
 
         Rigidbody2D rb = shotBall.GetComponent<Rigidbody2D>();
@@ -135,32 +161,32 @@ public class BallChainManager : MonoBehaviour
 
         balls.Insert(index + 1, shotBall);
 
-        CheckForMatches(index + 1);
+        CheckForMatches(index + 1, false);
     }
 
-    void CheckForMatches(int index)
+    void CheckForMatches(int index, bool allowChainReaction = false)
     {
+        if (index < 0 || index >= balls.Count) return;
+
         BallColor color = balls[index].ballColor;
 
         List<Ball> matchedBalls = new List<Ball>();
         matchedBalls.Add(balls[index]);
 
-        // Check left
+        // Left
         for (int i = index - 1; i >= 0; i--)
         {
             if (balls[i].ballColor == color)
                 matchedBalls.Add(balls[i]);
-            else
-                break;
+            else break;
         }
 
-        // Check right
+        // Right
         for (int i = index + 1; i < balls.Count; i++)
         {
             if (balls[i].ballColor == color)
                 matchedBalls.Add(balls[i]);
-            else
-                break;
+            else break;
         }
 
         if (matchedBalls.Count >= 3)
@@ -171,24 +197,34 @@ public class BallChainManager : MonoBehaviour
 
     void DestroyMatch(List<Ball> matchedBalls)
     {
+        if (matchedBalls.Count == 0) return;
+
+        int checkIndex = balls.IndexOf(matchedBalls[0]);
+        if (checkIndex == -1) checkIndex = 0;
+
         foreach (Ball ball in matchedBalls)
         {
             balls.Remove(ball);
             Destroy(ball.gameObject);
         }
 
-        StartCoroutine(CollapseChain());
+        // Start smooth collapse
+        collapseTargetDistance = frontDistance - (matchedBalls.Count * spacing);
+        isCollapsing = true;
+
+        StartCoroutine(CollapseChain(checkIndex));
     }
 
-    System.Collections.IEnumerator CollapseChain()
+    IEnumerator CollapseChain(int index)
     {
-        yield return new WaitForSeconds(0.15f);
+        // Wait for collapse to visually finish
+        yield return new WaitForSeconds(0.25f);
 
-        // Check if new matches formed after collapse
-        for (int i = 0; i < balls.Count; i++)
-        {
-            CheckForMatches(i);
-        }
+        if (balls.Count == 0) yield break;
+
+        index = Mathf.Clamp(index, 0, balls.Count - 1);
+
+        CheckForMatches(index, true);
     }
 
     void CheckLoseCondition()
@@ -208,7 +244,7 @@ public class BallChainManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        if(balls.Count == 0)
+        if (balls.Count == 0)
         {
             Debug.Log("You Win!");
 
