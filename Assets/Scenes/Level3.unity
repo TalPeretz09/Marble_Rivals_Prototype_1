@@ -2349,7 +2349,7 @@ MonoBehaviour:
   normalSpeed: 0.02
   introSpeed: 0.2
   introDuration: 1.25
-  spacing: 0.095
+  spacing: 0.0095
   loseDistance: 1
   balls: []
 --- !u!4 &1736959725
