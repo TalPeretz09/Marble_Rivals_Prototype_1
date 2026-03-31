@@ -23,6 +23,11 @@ public class BallChainManager : MonoBehaviour
     [SerializeField] private float spacing = 0.01f;
     [SerializeField] private float loseDistance = 1f;
 
+    [Header("Combo Variables")]
+    [SerializeField] private TMP_Text comboText;
+
+    private int combo = 0;
+
     [Header("Collapse Settings")]
     [SerializeField] private float collapseSpeed = 3f;
 
@@ -163,6 +168,8 @@ public class BallChainManager : MonoBehaviour
 
         balls.Insert(index + 1, shotBall);
 
+        combo = 0;
+
         CheckForMatches(index + 1, false);
     }
 
@@ -203,6 +210,9 @@ public class BallChainManager : MonoBehaviour
 
         int checkIndex = balls.IndexOf(matchedBalls[0]);
         if (checkIndex == -1) checkIndex = 0;
+
+        combo++;
+        comboText.text = combo + "x";
 
         foreach (Ball ball in matchedBalls)
         {
