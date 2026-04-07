@@ -21,6 +21,14 @@ public class PlayerController : MonoBehaviour
 
     bool canShoot = true;
 
+    [Header("Mobile")]
+    bool touchActive = false;
+    bool isDragging = false;
+    Vector2 touchStartPos;
+
+    [SerializeField] float dragThreshold = 15f;
+    [SerializeField] float swapRadius = 0.5f;
+
     void Start()
     {
         cam = Camera.main;
@@ -29,6 +37,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (touchActive)
+        {
+            float distance = Vector2.Distance(mousePosition, touchStartPos);
+
+            if (distance > dragThreshold)
+            {
+                isDragging = true;
+            }
+        }
+
         RotateTowardsMouse();
     }
 
@@ -70,6 +88,44 @@ public class PlayerController : MonoBehaviour
         {
             SwapBalls();
         }
+    }
+
+    public void OnTouchPress(InputAction.CallbackContext context)
+    {
+        // Touch started
+        if (context.started)
+        {
+            touchActive = true;
+            touchStartPos = mousePosition;
+            isDragging = false;
+        }
+
+        // Touch released
+        if (context.canceled)
+        {
+            HandleTouchRelease();
+            touchActive = false;
+        }
+    }
+
+    void HandleTouchRelease()
+    {
+        if (!canShoot) return;
+
+        Vector3 worldPos = cam.ScreenToWorldPoint(mousePosition);
+        worldPos.z = 0;
+
+        float distToPlayer = Vector2.Distance(worldPos, transform.position);
+
+        // Tap on player ? Swap
+        if (!isDragging && distToPlayer < swapRadius)
+        {
+            SwapBalls();
+            return;
+        }
+
+        // Tap OR drag release ? Shoot
+        StartCoroutine(ShootRoutine());
     }
 
     void RotateTowardsMouse()

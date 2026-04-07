@@ -118,6 +118,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2293997-a6c9-47d5-be4f-d566ac5508bb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -125,6 +134,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""98e47c25-57a7-4519-8db3-eb4fe94fca9f"",
                     ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c969dd4f-1bb6-4276-b6d6-59a6acecfece"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -153,6 +173,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""SwapBall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3e84b46-940a-4cac-b789-0402f8649d43"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +195,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerInputs_Aim = m_PlayerInputs.FindAction("Aim", throwIfNotFound: true);
         m_PlayerInputs_Shoot = m_PlayerInputs.FindAction("Shoot", throwIfNotFound: true);
         m_PlayerInputs_SwapBall = m_PlayerInputs.FindAction("SwapBall", throwIfNotFound: true);
+        m_PlayerInputs_TouchPress = m_PlayerInputs.FindAction("TouchPress", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -247,6 +279,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInputs_Aim;
     private readonly InputAction m_PlayerInputs_Shoot;
     private readonly InputAction m_PlayerInputs_SwapBall;
+    private readonly InputAction m_PlayerInputs_TouchPress;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerInputs".
     /// </summary>
@@ -270,6 +303,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerInputs/SwapBall".
         /// </summary>
         public InputAction @SwapBall => m_Wrapper.m_PlayerInputs_SwapBall;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerInputs/TouchPress".
+        /// </summary>
+        public InputAction @TouchPress => m_Wrapper.m_PlayerInputs_TouchPress;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -305,6 +342,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @SwapBall.started += instance.OnSwapBall;
             @SwapBall.performed += instance.OnSwapBall;
             @SwapBall.canceled += instance.OnSwapBall;
+            @TouchPress.started += instance.OnTouchPress;
+            @TouchPress.performed += instance.OnTouchPress;
+            @TouchPress.canceled += instance.OnTouchPress;
         }
 
         /// <summary>
@@ -325,6 +365,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @SwapBall.started -= instance.OnSwapBall;
             @SwapBall.performed -= instance.OnSwapBall;
             @SwapBall.canceled -= instance.OnSwapBall;
+            @TouchPress.started -= instance.OnTouchPress;
+            @TouchPress.performed -= instance.OnTouchPress;
+            @TouchPress.canceled -= instance.OnTouchPress;
         }
 
         /// <summary>
@@ -386,5 +429,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwapBall(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TouchPress" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTouchPress(InputAction.CallbackContext context);
     }
 }

@@ -1963,6 +1963,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b4eb9ad1-a56a-46df-9c0d-22b24486f29b
     m_ActionName: 'PlayerInputs/SwapBall[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1448484866}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnTouchPress
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d2293997-a6c9-47d5-be4f-d566ac5508bb
+    m_ActionName: 'PlayerInputs/TouchPress[/Touchscreen/press]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerInputs
@@ -1985,6 +2001,8 @@ MonoBehaviour:
   ballPrefab: {fileID: 335868007921589612, guid: e82798232786c1540aa7318264a18391, type: 3}
   shootForce: 12
   shootCooldown: 0.3
+  dragThreshold: 15
+  swapRadius: 0.5
 --- !u!120 &1448484867
 LineRenderer:
   serializedVersion: 3
